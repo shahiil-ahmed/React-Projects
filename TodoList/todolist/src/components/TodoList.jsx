@@ -1,21 +1,18 @@
 import React, { useState } from "react";
 import TodoItem from "./TodoItem";
 
-const TodoList = ({
-  todos,
-  setTodos,
-  filter,
-  setFilter,
-}) => {
-  const [input, setInput] = useState("");
+const TodoList = ({todos, setTodos, filter, setFilter, allTodos }) => {
 
+  const [input, setInput] = useState("");
+  
+  // Add task function
   const handleAdd = () => {
     const trimInput = input.trim();
     if (trimInput === "") {
       alert("Task can't be empty!");
     } else {
       setTodos([
-        ...todos,
+        ...allTodos,
         {
           id: Date.now(),
           text: trimInput,
@@ -28,8 +25,8 @@ const TodoList = ({
   return (
     <div>
       <div className="flex mb-4">
-        {/* Input box */}
 
+        {/* Input box */}
         <input
           type="text"
           placeholder="Add a task..."
@@ -50,27 +47,24 @@ const TodoList = ({
       <div className="flex justify-center space-x-4 mb-4">
         <button
           onClick={() => setFilter("all")}
-          className={`px-3 py-1 rounded cursor-pointer ${
-            filter === "all" ? "bg-blue-500 text-white" : "bg-gray-200"
-          }`}
+          className={`px-3 py-1 rounded cursor-pointer ${filter === "all" ? "bg-blue-500 text-white" : "bg-gray-200"
+            }`}
         >
           All
         </button>
         <button
           onClick={() => setFilter("completed")}
-          className={`px-3 py-1 rounded cursor-pointer ${
-            filter === "completed" ? "bg-blue-500 text-white" : "bg-gray-200"
-          }`}
+          className={`px-3 py-1 rounded cursor-pointer ${filter === "completed" ? "bg-blue-500 text-white" : "bg-gray-200"
+            }`}
         >
           Completed
         </button>
         <button
           onClick={() => setFilter("not-completed")}
-          className={`px-3 py-1 rounded cursor-pointer ${
-            filter === "not-completed"
+          className={`px-3 py-1 rounded cursor-pointer ${filter === "not-completed"
               ? "bg-blue-500 text-white"
               : "bg-gray-200"
-          }`}
+            }`}
         >
           Not Complete
         </button>
@@ -86,7 +80,7 @@ const TodoList = ({
               key={todo.id}
               todo={todo}
               setTodos={setTodos}
-              allTodos={todos}
+              allTodos={allTodos}
             />
           ))
         )}
