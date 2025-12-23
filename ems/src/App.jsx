@@ -1,4 +1,3 @@
-
 import { useContext, useEffect, useState } from 'react'
 import Login from './components/Auth/login'
 import { getLocalStorage, setLocalStorage } from './utilts/localStorage'
@@ -10,13 +9,25 @@ const App = () => {
 
   const [user, setUser] = useState(null)
   const authData = useContext(AuthContext)
-  console.log(authData.employees)
+
+  useEffect(()=> {
+    if(authData){
+      const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"))
+      // if(loggedInUser){
+      //   setUser(loggedInUser.role)
+      // }
+    }
+  }, [authData])
+ 
 
   const handleLogin = (email, password) => {
     if(email === 'admin@gmail.com' && password === '1234'){
       setUser('admin')
-    } else if(email === 'user@gmail.com' && password === '4321'){
+      localStorage.setItem('loggedInUser', JSON.stringify({role: 'admin'}))
+    } else if(  authData?.employees?.find(
+    (e) => email === e.email && e.password === password)){
       setUser('employee')
+      localStorage.setItem('loggedInUser', JSON.stringify({role: 'employee'}))
     } else{
       alert('Invalid Credentials')
     }
